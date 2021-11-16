@@ -22,8 +22,8 @@ def P_t(
     alpha: float,
     beta: float,
     K: float = 1_000_000,
+    P0: float = 1_000,
     t_max: float = 180,
-    P0: float = 0
 ) -> tuple[np.ndarray, np.ndarray]:
     t = np.arange(0, t_max)
     return t, odeint(dP_dt, P0, t, args=(r, alpha, beta, K))[:, 0]
@@ -83,7 +83,7 @@ def main():
         label='P0',
         valmin=0,
         valmax=1_000_000,
-        valinit=0,
+        valinit=1_000,
         orientation='vertical',
     )
     slider_t = widgets.Slider(
@@ -91,7 +91,7 @@ def main():
         label='t',
         valmin=0,
         valmax=10_000,
-        valinit=1000,
+        valinit=1_000,
         orientation='vertical',
     )
 
@@ -107,10 +107,10 @@ def main():
         )
 
         line.set_xdata(t)
-        ax.set_xlim(t.min(), t.max())
+        ax.set_xlim(0, t.max())
 
         line.set_ydata(y)
-        ax.set_ylim(y.min(), y.max())
+        ax.set_ylim(0, y.max())
 
     slider_r.on_changed(update_line)
     slider_alpha.on_changed(update_line)
